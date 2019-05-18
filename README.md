@@ -3,7 +3,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/sluberriaga/battleships_go">
-    <img src="vintage_logo.jpg" alt="Logo" width="300" height="172">
+    <img src="assets/vintage_logo.jpg" alt="Logo" width="300" height="172">
   </a>
 
   <h3 align="center">Battleships GO!</h3>
@@ -17,7 +17,7 @@
   </p>
 </p>
 
-<img src="naval_demo_1.gif" alt="Demo" width="100%" height="auto">
+<img src="assets/naval_demo_1.gif" alt="Demo" width="100%" height="auto">
 
 [license-shield]: https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square
 [license-url]: https://choosealicense.com/licenses/mit
