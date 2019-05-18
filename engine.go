@@ -6,11 +6,11 @@ import (
 )
 
 const (
-	MAP_HEIGHT      = 6
-	MAP_WIDTH       = 12
+	MAP_HEIGHT      = 8
+	MAP_WIDTH       = 15
 	NUMBER_OF_SHIPS = 3
 	LENGTH_OF_SHIP  = 3
-	SPEED           = 50 // 1 -> 100
+	SPEED           = 3 // 1 -> 100
 )
 
 const NOTIFICATION_POSITION = MAP_HEIGHT + 15
@@ -148,12 +148,14 @@ func (engine EngineStatus) run() {
 
 						if hasHitted {
 							renderer.showMapWithShipsAndHitsForPlayer(engine, "You hitted the enemy ship!")
+							playerOnTurn.Channel <- PlayerCommand{
+								Type: REQUEST_SHOT_POSITION,
+							}
 						} else {
 							renderer.showMapWithShipsAndHitsForPlayer(engine, "So close!")
-						}
-
-						engine.Channel <- EngineCommand{
-							Type: ENGINE_GIVE_TURN,
+							engine.Channel <- EngineCommand{
+								Type: ENGINE_GIVE_TURN,
+							}
 						}
 					}
 				}
