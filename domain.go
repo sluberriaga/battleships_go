@@ -74,8 +74,9 @@ const (
 )
 
 type PlayerCommand struct {
-	Id   int
-	Type PlayerCommandType
+	Id      int
+	Type    PlayerCommandType
+	Payload interface{}
 }
 
 type CardinalDirection string

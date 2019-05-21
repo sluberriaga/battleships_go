@@ -7,10 +7,10 @@ import (
 
 const (
 	MAP_HEIGHT      = 8
-	MAP_WIDTH       = 15
+	MAP_WIDTH       = 16
 	NUMBER_OF_SHIPS = 3
 	LENGTH_OF_SHIP  = 3
-	SPEED           = 3 // 1 -> 100
+	SPEED           = 100 // 1 -> 100
 )
 
 const NOTIFICATION_POSITION = MAP_HEIGHT + 15
@@ -120,8 +120,14 @@ func (engine EngineStatus) run() {
 
 				renderer.showMapWithShipsAndHitsForPlayer(engine, "Please input your shot!")
 
+				lastHit := Hit{}
+				if len(playerOnTurn.Hits) != 0 {
+					lastHit = playerOnTurn.Hits[len(playerOnTurn.Hits)-1]
+				}
+
 				playerOnTurn.Channel <- PlayerCommand{
-					Type: REQUEST_SHOT_POSITION,
+					Type:    REQUEST_SHOT_POSITION,
+					Payload: lastHit,
 				}
 			case PLAYER_RESPONSE_SHOT_POSITION:
 				playerOnTurn := engine.Players[engine.CurrentTurn]
@@ -139,17 +145,21 @@ func (engine EngineStatus) run() {
 							}
 						}
 
-						engine.Players[engine.CurrentTurn].Hits = append(playerOnTurn.Hits, Hit{
+						hit := Hit{
 							Point: playerShotResponse,
 							IsHit: hasHitted,
-						})
+						}
+
+						engine.Players[engine.CurrentTurn].Hits = append(playerOnTurn.Hits, hit)
 
 						renderer.showShotSelected(playerShotResponse)
 
 						if hasHitted {
 							renderer.showMapWithShipsAndHitsForPlayer(engine, "You hitted the enemy ship!")
+
 							playerOnTurn.Channel <- PlayerCommand{
-								Type: REQUEST_SHOT_POSITION,
+								Type:    REQUEST_SHOT_POSITION,
+								Payload: hit,
 							}
 						} else {
 							renderer.showMapWithShipsAndHitsForPlayer(engine, "So close!")
