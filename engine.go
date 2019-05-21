@@ -10,10 +10,10 @@ const (
 	MAP_WIDTH       = 16
 	NUMBER_OF_SHIPS = 3
 	LENGTH_OF_SHIP  = 3
-	SPEED           = 100 // 1 -> 100
+	SPEED           = 2 // 1 -> 100
 )
 
-const NOTIFICATION_POSITION = MAP_HEIGHT + 15
+const NOTIFICATION_POSITION = MAP_HEIGHT + 16
 
 var Displacements = map[CardinalDirection]Point{
 	EAST:  Point{1, 0},
@@ -120,9 +120,9 @@ func (engine EngineStatus) run() {
 
 				renderer.showMapWithShipsAndHitsForPlayer(engine, "Please input your shot!")
 
-				lastHit := Hit{}
+				lastHit := new(Hit)
 				if len(playerOnTurn.Hits) != 0 {
-					lastHit = playerOnTurn.Hits[len(playerOnTurn.Hits)-1]
+					lastHit = &playerOnTurn.Hits[len(playerOnTurn.Hits)-1]
 				}
 
 				playerOnTurn.Channel <- PlayerCommand{
@@ -159,7 +159,7 @@ func (engine EngineStatus) run() {
 
 							playerOnTurn.Channel <- PlayerCommand{
 								Type:    REQUEST_SHOT_POSITION,
-								Payload: hit,
+								Payload: &hit,
 							}
 						} else {
 							renderer.showMapWithShipsAndHitsForPlayer(engine, "So close!")

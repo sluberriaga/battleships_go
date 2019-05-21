@@ -36,7 +36,7 @@ func (r Renderer) showShotSelected(playerShot Point) {
 
 func (r Renderer) printDebugMessage(message string) {
 	tm.MoveCursor(0, NOTIFICATION_POSITION)
-	tm.Print(message)
+	tm.Print(tm.Bold(message))
 	tm.Flush()
 }
 

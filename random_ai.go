@@ -78,6 +78,14 @@ func RandomAI(
 				newShot := getRandomMapPointNotInPreviousShots(previousShots)
 				previousShots = append(previousShots, newShot)
 
+				if command.Payload != nil {
+					lastHit := command.Payload
+
+					if lastHit.IsHit {
+						renderer.printDebugMessage(fmt.Sprintf("Last shot was successful! %+v", lastHit))
+					}
+				}
+
 				engineChannel <- EngineCommand{
 					Id:      id,
 					Type:    PLAYER_RESPONSE_SHOT_POSITION,
